@@ -1,14 +1,15 @@
 %global commit fac87113b59cd5e5b067e11de48163aa24e4a9bf
 Name:           cutefish-computer-use
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Consent-based Cutefish desktop control for agent applications
 License:        BSD-3-Clause
 URL:            https://github.com/cutefishos/cutefish-computer-use
 Source0:        https://codeload.github.com/MCC45TR/cutefish-computer-use/tar.gz/%{commit}#/cutefish-computer-use-%{commit}.tar.gz
 ExclusiveArch:  aarch64
 BuildRequires:  rust cargo
-BuildRequires:  rust-base64+default-devel rust-bitflags+default-devel
+BuildRequires:  (crate(base64/default) >= 0.22 with crate(base64/default) < 0.23)
+BuildRequires:  rust-bitflags+default-devel
 BuildRequires:  rust-jpeg-encoder+default-devel rust-libc+default-devel
 BuildRequires:  rust-memmap2+default-devel rust-serde_json+default-devel
 BuildRequires:  (crate(png/default) >= 0.17 with crate(png/default) < 0.18)
@@ -45,5 +46,8 @@ test -z "$(find %{buildroot} -type f \( -name '*.py' -o -name '*.pyc' \) -print 
 %{_bindir}/cutefish-computer-use
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-2
+- Select the Fedora base64 compatibility crate matching the upstream API.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-1
 - Build offline against Fedora Rust crates without enabling desktop control.
