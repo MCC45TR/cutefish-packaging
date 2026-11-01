@@ -1,6 +1,6 @@
 Name:           cutefish-desktop
 Version:        1.0^20261101
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Upstream Cutefish Wayland desktop
 License:        BSD-3-Clause AND GPL-3.0-only AND GPL-3.0-or-later AND LGPL-2.0-or-later AND MIT
 URL:            https://cutefish.org/
@@ -34,6 +34,7 @@ Source24: cutefish-greeter.conf
 Source25: BSD-3-Clause
 Source26: GPL-3.0
 Patch0: installer-debian-only.patch
+Patch1: qt-theme-notification.patch
 
 BuildRequires: gcc-c++ clang cmake ninja-build gn python3 gettext binutils
 BuildRequires: pkgconfig(mpv) pkgconfig(libical) pkgconfig(libcurl)
@@ -197,6 +198,7 @@ tar -xf %{SOURCE18} --strip-components=1 -C cutefish-toolkit/third_party/skia
 ln -s %{_bindir}/gn cutefish-toolkit/third_party/skia/bin/gn
 
 %patch -P 0 -p1
+%patch -P 1 -p1
 
 %build
 %set_build_flags
@@ -396,6 +398,9 @@ u cutefish-greeter - "Cutefish display manager" /var/lib/cutefish-greeter /usr/s
 EOF
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-3
+- Use the global Qt theme notification supported by Fedora's Qt versions.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-2
 - Use the byte-stable GitHub Skia mirror archive for reproducible source jobs.
 
