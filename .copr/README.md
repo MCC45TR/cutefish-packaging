@@ -1,9 +1,11 @@
 # Fedora Cutefish packaging
 
 2026-11-01. Fedora 44, Fedora 45 and Rawhide, AArch64 only.
-The expanded native COPR desktop builds are in progress. The suite and computer-use
-packages built on all three targets; all 18 upstream Rust checks passed. No installation, graphical
-session, image or physical-device acceptance is claimed.
+All 13 non-debug RPMs built on each of the three native targets. The desktop
+build passed 31 arithmetic checks and the Debian-installer refusal check;
+computer-use passed 18 upstream Rust checks on each target. Signatures,
+payloads and fresh-root suite dependency previews were verified. No installation,
+graphical session, image or physical-device acceptance is claimed.
 
 This fork preserves [Cutefish upstream](https://github.com/cutefishos/packaging)
 history, names, copyright and licenses. Fedora recipes and reviewed patches
@@ -74,3 +76,11 @@ restored automatic repository bindings on all three targets. Frontend mode
 is automatic and binary-build networking remains disabled. Public metadata
 and RPM locations still need verification after each reviewed promotion;
 manual metadata actions can report failure despite advancing the binding.
+
+Native desktop build: [11240635](https://copr.fedorainfracloud.org/coprs/build/11240635).
+Computer-use: [11240618](https://copr.fedorainfracloud.org/coprs/build/11240618).
+Suite: [11240645](https://copr.fedorainfracloud.org/coprs/build/11240645).
+Fresh-root DNF previews resolved 551 packages on Fedora 44 and 560 on Fedora
+45 and Rawhide, including all 11 selected COPR runtime/meta packages, and
+stopped before downloading or installing. Each root contains zero installed
+RPMs. Qt private-API updates can require rebuilding the integration plugins.
