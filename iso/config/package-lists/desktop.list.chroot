@@ -101,6 +101,7 @@ libmtp-runtime
 usbmuxd
 
 # Fonts
+fonts-inter
 fonts-liberation
 fonts-noto-core
 fonts-noto-cjk
