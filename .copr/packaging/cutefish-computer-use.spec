@@ -1,9 +1,9 @@
 %global commit fac87113b59cd5e5b067e11de48163aa24e4a9bf
 Name:           cutefish-computer-use
 Version:        1.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Consent-based Cutefish desktop control for agent applications
-License:        BSD-3-Clause AND MIT AND Apache-2.0 AND (Apache-2.0 WITH LLVM-exception) AND Unicode-3.0
+License:        BSD-3-Clause AND MIT AND IJG
 URL:            https://github.com/cutefishos/cutefish-computer-use
 Source0:        https://codeload.github.com/MCC45TR/cutefish-computer-use/tar.gz/%{commit}#/cutefish-computer-use-%{commit}.tar.gz
 ExclusiveArch:  aarch64
@@ -29,6 +29,7 @@ service, configure an agent, or grant consent during installation.
 %autosetup -n cutefish-computer-use-%{commit}
 # Fedora Rawhide carries jpeg-encoder 0.7; stable Fedora also accepts 0.6.
 sed -i 's/jpeg-encoder = "0.6"/jpeg-encoder = ">=0.6, <0.8"/' Cargo.toml
+sed -i '/publish = false/a license = "BSD-3-Clause"' Cargo.toml
 
 %build
 %set_build_flags
@@ -47,9 +48,15 @@ while IFS="$(printf '\t')" read -r crate version directory; do
         install -Dm644 "$notice" "%{buildroot}%{_licensedir}/%{name}/dependencies/$crate-$version/${notice##*/}"
     done
 done
+# jpeg-encoder retains the IJG grant in its native DCT source comments.
+jpeg=$(jq -r '.packages[] | select(.name == "jpeg-encoder") | .manifest_path | sub("/Cargo.toml$"; "")' cargo-metadata.json)
+mkdir -p %{buildroot}%{_licensedir}/%{name}/dependencies/jpeg-encoder
+sed -n '1,/^ \*\//p' "$jpeg/src/fdct.rs" > %{buildroot}%{_licensedir}/%{name}/dependencies/jpeg-encoder/LICENSE-IJG
+printf '%s\n' 'This software is based in part on the work of the Independent JPEG Group.' > %{buildroot}%{_licensedir}/%{name}/dependencies/jpeg-encoder/NOTICE
 
 %check
 test -s LICENSE.dependencies
+grep -F 'Independent JPEG Group' %{buildroot}%{_licensedir}/%{name}/dependencies/jpeg-encoder/LICENSE-IJG
 cargo test --release --offline
 test -z "$(find %{buildroot} -type f \( -name '*.py' -o -name '*.pyc' \) -print -quit)"
 
@@ -60,6 +67,10 @@ test -z "$(find %{buildroot} -type f \( -name '*.py' -o -name '*.pyc' \) -print 
 %{_bindir}/cutefish-computer-use
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-5
+- Preserve the JPEG DCT copyright/grant and required IJG acknowledgement.
+- Record the upstream crate license and select MIT for dual-licensed dependencies.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-4
 - Keep the dependency license redirection outside the RPM macro arguments.
 
