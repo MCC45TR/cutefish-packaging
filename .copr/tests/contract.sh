@@ -2,6 +2,7 @@
 set -Eeuo pipefail
 root=$(cd -- "$(dirname -- "$0")/.." && pwd)
 spec=$root/packaging/cutefish-desktop.spec
+mkdir -p "$root/build"
 rpmspec --target aarch64 -P "$spec" > /dev/null
 [[ $(rpmspec --target aarch64 -q --srpm --qf '%{NAME} %{ARCH}' "$spec") == 'cutefish-desktop aarch64' ]]
 rpmspec --target aarch64 -q --qf '[%{=NAME}|%{REQUIRENAME} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]' "$spec" | grep -Fx 'cutefish-desktop-devel|pkgconfig(libpipewire-0.3) >= 0.3.65'
