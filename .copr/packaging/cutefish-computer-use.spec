@@ -1,7 +1,7 @@
 %global commit fac87113b59cd5e5b067e11de48163aa24e4a9bf
 Name:           cutefish-computer-use
 Version:        1.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Consent-based Cutefish desktop control for agent applications
 License:        BSD-3-Clause AND MIT AND Apache-2.0 AND (Apache-2.0 WITH LLVM-exception) AND Unicode-3.0
 URL:            https://github.com/cutefishos/cutefish-computer-use
@@ -34,7 +34,7 @@ sed -i 's/jpeg-encoder = "0.6"/jpeg-encoder = ">=0.6, <0.8"/' Cargo.toml
 %set_build_flags
 cargo build --release --offline
 %cargo_license_summary
-%cargo_license > LICENSE.dependencies
+%{cargo_license} > LICENSE.dependencies
 cargo metadata --offline --format-version 1 > cargo-metadata.json
 
 %install
@@ -49,6 +49,7 @@ while IFS="$(printf '\t')" read -r crate version directory; do
 done
 
 %check
+test -s LICENSE.dependencies
 cargo test --release --offline
 test -z "$(find %{buildroot} -type f \( -name '*.py' -o -name '*.pyc' \) -print -quit)"
 
@@ -59,6 +60,9 @@ test -z "$(find %{buildroot} -type f \( -name '*.py' -o -name '*.pyc' \) -print 
 %{_bindir}/cutefish-computer-use
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-4
+- Keep the dependency license redirection outside the RPM macro arguments.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-3
 - Retain statically linked crate notices, exact dependency versions and licenses.
 
