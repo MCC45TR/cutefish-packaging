@@ -1,0 +1,49 @@
+%global commit fac87113b59cd5e5b067e11de48163aa24e4a9bf
+Name:           cutefish-computer-use
+Version:        1.0.0
+Release:        1%{?dist}
+Summary:        Consent-based Cutefish desktop control for agent applications
+License:        BSD-3-Clause
+URL:            https://github.com/cutefishos/cutefish-computer-use
+Source0:        https://codeload.github.com/MCC45TR/cutefish-computer-use/tar.gz/%{commit}#/cutefish-computer-use-%{commit}.tar.gz
+ExclusiveArch:  aarch64
+BuildRequires:  rust cargo
+BuildRequires:  rust-base64+default-devel rust-bitflags+default-devel
+BuildRequires:  rust-jpeg-encoder+default-devel rust-libc+default-devel
+BuildRequires:  rust-memmap2+default-devel rust-serde_json+default-devel
+BuildRequires:  (crate(png/default) >= 0.17 with crate(png/default) < 0.18)
+BuildRequires:  rust-wayland-backend+default-devel rust-wayland-client+default-devel
+BuildRequires:  rust-wayland-protocols+client-devel rust-wayland-protocols+staging-devel
+BuildRequires:  rust-wayland-protocols+unstable-devel rust-wayland-scanner+default-devel
+BuildRequires:  pkgconfig(wayland-client)
+Requires:       cutefish-desktop >= 1.0^20261101
+
+%description
+The upstream MCP server for Cutefish desktop capture, pointer and keyboard
+control. The compositor requests user consent. This package does not enable a
+service, configure an agent, or grant consent during installation.
+
+%prep
+%autosetup -n cutefish-computer-use-%{commit}
+# Fedora Rawhide carries jpeg-encoder 0.7; stable Fedora also accepts 0.6.
+sed -i 's/jpeg-encoder = "0.6"/jpeg-encoder = ">=0.6, <0.8"/' Cargo.toml
+
+%build
+%set_build_flags
+cargo build --release --offline
+
+%install
+install -Dm755 target/release/cutefish-computer-use %{buildroot}%{_bindir}/cutefish-computer-use
+
+%check
+cargo test --release --offline
+test -z "$(find %{buildroot} -type f \( -name '*.py' -o -name '*.pyc' \) -print -quit)"
+
+%files
+%license LICENSE
+%doc README.md
+%{_bindir}/cutefish-computer-use
+
+%changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-1
+- Build offline against Fedora Rust crates without enabling desktop control.

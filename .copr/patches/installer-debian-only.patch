@@ -1,0 +1,30 @@
+--- a/cutefish-installer/daemon/main.cpp
++++ b/cutefish-installer/daemon/main.cpp
+@@ -2,6 +2,10 @@
+ // SPDX-License-Identifier: BSD-3-Clause
+ 
+ #include "installerservice.h"
++
++#include <cstdio>
++#include <fstream>
++#include <string>
+ 
+ #include "base/command_line.h"
+ #include "base/dbus.h"
+@@ -10,6 +14,16 @@
+ 
+ int main(int argc, char *argv[])
+ {
++    // This installer uses Debian package and boot-loader operations.
++    std::ifstream release("/etc/os-release");
++    std::string line;
++    bool debian = false;
++    while (std::getline(release, line))
++        debian = debian || line == "ID=debian" || line == "ID=\"debian\"";
++    if (!debian) {
++        std::fputs("Cutefish installer requires a Debian live system; Fedora installation is unsupported.\n", stderr);
++        return 77;
++    }
+     cutefish::base::CommandLineParser parser;
+     parser.setApplicationDescription("Installs the live system on a disk, for cutefish-installer.");
+     parser.addHelpOption();
