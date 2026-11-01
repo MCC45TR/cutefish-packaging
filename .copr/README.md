@@ -20,7 +20,8 @@ optional display manager, Plymouth themes and the consent-based computer-use
 server. Rust dependencies retain their license notices, Cargo lock file and
 required JPEG attribution. `cutefish-suite` selects all these runtime components.
 
-The upstream Unsplash wallpapers are excluded from SRPMs and RPMs under
+The upstream Unsplash wallpapers use a license Fedora marks as not allowed;
+they are excluded from SRPMs and RPMs under
 [COPR license policy](https://docs.copr.fedorainfracloud.org/user_documentation.html#what-i-can-build-in-copr).
 The compositor retains its solid-color fallback. The separate experimental
 `cutefish-installer` package builds the Debian live installer; its privileged
@@ -66,3 +67,10 @@ preserves downstream commits and aborts conflicts without pushing. Package
 sources remain pinned; upstream synchronization does not automatically
 publish untested revisions. Changes to a pin require new checksums, review,
 COPR builds and package/dependency validation before promotion.
+
+The COPR storage migration left the three public repositories bound to old
+fixed publications. On 2026-11-01, an explicit publication-mode transition
+restored automatic repository bindings on all three targets. Frontend mode
+is automatic and binary-build networking remains disabled. Public metadata
+and RPM locations still need verification after each reviewed promotion;
+manual metadata actions can report failure despite advancing the binding.
