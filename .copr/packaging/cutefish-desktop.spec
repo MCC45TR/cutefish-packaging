@@ -1,6 +1,6 @@
 Name:           cutefish-desktop
 Version:        1.0^20261101
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Upstream Cutefish Wayland desktop
 License:        BSD-3-Clause AND GPL-3.0-only AND GPL-3.0-or-later AND LGPL-2.0-or-later AND MIT
 URL:            https://cutefish.org/
@@ -303,6 +303,7 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %{_prefix}/lib/udev/rules.d/*cutefish*
 %{_prefix}/lib/modules-load.d/cutefish-ddc.conf
 %config(noreplace) %{_sysconfdir}/pam.d/cutefish-auth
+%config(noreplace) %{_sysconfdir}/fonts/conf.d/56-cutefish-sans.conf
 
 %exclude %{_bindir}/cutefish-calculator
 %exclude %{_datadir}/applications/cutefish-calculator.desktop
@@ -400,6 +401,9 @@ u cutefish-greeter - "Cutefish display manager" /var/lib/cutefish-greeter /usr/s
 EOF
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-5
+- Own the upstream Cutefish font-family alias configuration.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-4
 - Own the greeter home directory with its dedicated account and private permissions.
 
