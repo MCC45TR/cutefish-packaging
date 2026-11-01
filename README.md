@@ -1,5 +1,9 @@
 # packaging
 
+Fedora AArch64 recipes, the complete desktop meta package and source pins are
+documented in [.copr/README.md](.copr/README.md). The upstream distribution
+packaging below is preserved for reference.
+
 Distribution packaging for the Cutefish desktop. The project repositories carry
 no packaging of their own; it all lives here.
 
