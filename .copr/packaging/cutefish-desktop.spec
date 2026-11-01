@@ -1,6 +1,6 @@
 Name:           cutefish-desktop
 Version:        1.0^20261101
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Upstream Cutefish Wayland desktop
 License:        BSD-3-Clause AND GPL-3.0-only AND GPL-3.0-or-later AND LGPL-2.0-or-later AND MIT
 URL:            https://cutefish.org/
@@ -24,7 +24,7 @@ Source14: https://codeload.github.com/MCC45TR/cutefish-qt-plugins/tar.gz/8d79992
 Source15: https://codeload.github.com/MCC45TR/cutefish-system-monitor/tar.gz/c09b8eae8dc53bbfc57ad043a914e201ee6aa4fa#/system-monitor-c09b8eae8dc53bbfc57ad043a914e201ee6aa4fa.tar.gz
 Source16: https://codeload.github.com/MCC45TR/cutefish-text-editor/tar.gz/2a4b93d16332aa6806330e18b183011636b27e10#/text-editor-2a4b93d16332aa6806330e18b183011636b27e10.tar.gz
 Source17: https://codeload.github.com/MCC45TR/cutefish-video-player/tar.gz/0037aa0a58a3fe3816adf99ca96b27678a330ea2#/video-player-0037aa0a58a3fe3816adf99ca96b27678a330ea2.tar.gz
-Source18: https://skia.googlesource.com/skia/+archive/95ee33d7ec7791ab9c071675710a14fe6408ae4f.tar.gz#/skia-95ee33d7ec7791ab9c071675710a14fe6408ae4f.tar.gz
+Source18: https://codeload.github.com/google/skia/tar.gz/95ee33d7ec7791ab9c071675710a14fe6408ae4f#/skia-95ee33d7ec7791ab9c071675710a14fe6408ae4f.tar.gz
 Source19: sources.sha256
 Source20: upstream.tsv
 Source21: cutefish-auth
@@ -192,7 +192,7 @@ tar -xf %{SOURCE16} --strip-components=1 -C text-editor
 mkdir video-player
 tar -xf %{SOURCE17} --strip-components=1 -C video-player
 mkdir -p cutefish-toolkit/third_party/skia
-tar -xf %{SOURCE18} -C cutefish-toolkit/third_party/skia
+tar -xf %{SOURCE18} --strip-components=1 -C cutefish-toolkit/third_party/skia
 # Use Fedora's native GN; no downloaded build executable or network fetch.
 ln -s %{_bindir}/gn cutefish-toolkit/third_party/skia/bin/gn
 
@@ -396,6 +396,9 @@ u cutefish-greeter - "Cutefish display manager" /var/lib/cutefish-greeter /usr/s
 EOF
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-2
+- Use the byte-stable GitHub Skia mirror archive for reproducible source jobs.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-1
 - Build the complete redistributable upstream desktop and optional components.
 - Preserve the existing display manager and refuse the Debian installer on Fedora.

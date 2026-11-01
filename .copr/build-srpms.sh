@@ -9,7 +9,7 @@ while read -r checksum archive url; do
     target=$root/referances/$archive
     if [[ ! -f $target ]]; then
         curl --fail --location --retry 3 --output "$target.part" "$url"
-        printf '%s  %s\n' "$checksum" "$target.part" | sha256sum --check --status
+        printf '%s  %s\n' "$checksum" "$target.part" | sha256sum --check --status || { echo "Checksum mismatch: $archive" >&2; exit 1; }
         mv -- "$target.part" "$target"
     fi
     printf '%s  %s\n' "$checksum" "$target" | sha256sum --check --status || { echo "Checksum mismatch: $archive" >&2; exit 1; }
