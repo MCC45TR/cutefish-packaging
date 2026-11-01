@@ -1,6 +1,6 @@
 Name:           cutefish-desktop
 Version:        1.0^20261101
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Upstream Cutefish Wayland desktop
 License:        BSD-3-Clause AND GPL-3.0-only AND GPL-3.0-or-later AND LGPL-2.0-or-later AND MIT
 URL:            https://cutefish.org/
@@ -238,6 +238,7 @@ done
 install -m644 %{SOURCE22} %{buildroot}%{_sysconfdir}/pam.d/cutefish-dm
 install -m644 %{SOURCE23} %{buildroot}%{_sysconfdir}/pam.d/cutefish-dm-greeter
 install -Dm644 %{SOURCE24} %{buildroot}%{_sysusersdir}/cutefish-greeter.conf
+install -d -m700 %{buildroot}%{_localstatedir}/lib/cutefish-greeter
 mkdir -p %{buildroot}%{_datadir}/plymouth/themes
 cp -a plymouth-theme/cutefish-logo plymouth-theme/cutefish-text %{buildroot}%{_datadir}/plymouth/themes/
 rm -f %{buildroot}%{_datadir}/plymouth/themes/cutefish-text/*.in
@@ -354,6 +355,7 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %{_userunitdir}/wireplumber.service.d/cutefish-dm.conf
 %{_userunitdir}/filter-chain.service.d/cutefish-dm.conf
 %{_sysusersdir}/cutefish-greeter.conf
+%attr(0700,cutefish-greeter,cutefish-greeter) %dir %{_localstatedir}/lib/cutefish-greeter
 
 %files -n cutefish-installer
 %license %{_licensedir}/cutefish-installer/
@@ -398,6 +400,9 @@ u cutefish-greeter - "Cutefish display manager" /var/lib/cutefish-greeter /usr/s
 EOF
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-4
+- Own the greeter home directory with its dedicated account and private permissions.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261101-3
 - Use the global Qt theme notification supported by Fedora's Qt versions.
 
