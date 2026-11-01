@@ -1,6 +1,6 @@
 Name:           cutefish-suite
 Version:        1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Complete Cutefish desktop and application suite
 License:        BSD-3-Clause
 URL:            https://github.com/MCC45TR/cutefish-packaging
@@ -10,6 +10,7 @@ Requires:       cutefish-desktop >= 1.0^20261101
 Requires:       cutefish-calculator cutefish-calendar cutefish-system-monitor
 Requires:       cutefish-text-editor cutefish-video-player cutefish-qt-plugins
 Requires:       cutefish-dm cutefish-plymouth-theme cutefish-computer-use
+Requires:       rsms-inter-fonts google-noto-color-emoji-fonts
 
 %description
 Install the complete packaged Cutefish desktop, applications, Qt integration,
@@ -26,5 +27,8 @@ cp %{SOURCE0} LICENSE
 %license LICENSE
 
 %changelog
+* Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0-2
+- Include the Inter family used by upstream defaults and color emoji fallback.
+
 * Sun Nov 01 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0-1
 - Select the complete redistributable Cutefish desktop and application suite.
